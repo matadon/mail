@@ -30,5 +30,20 @@ module Mail
     def addresses_grouped_by_group
       addresses.select(&:group).group_by(&:group)
     end
+
+    def ==(other)
+      if (not Mail.use_expanded_address_comparison?)
+        super
+      elsif other.is_a?(String)
+        self == self.class.new(other)
+      elsif other.is_a?(Array)
+        self == self.class.new(other.map(&:to_s).join(", "))
+      elsif other.is_a?(self.class)
+        (group_names == other.group_names) \
+          and (addresses == other.addresses)
+      else
+        super
+      end
+    end
   end
 end

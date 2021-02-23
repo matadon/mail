@@ -1,7 +1,6 @@
 # encoding: utf-8
 # frozen_string_literal: true
 module Mail # :doc:
-
   require 'date'
   require 'shellwords'
 
@@ -80,4 +79,18 @@ module Mail # :doc:
 
   # Finally... require all the Mail.methods
   require 'mail/mail'
+
+  def self.enable_expanded_address_comparison
+    @enable_expanded_address_comparison = true
+  end
+
+  def self.disable_expanded_address_comparison
+    @enable_expanded_address_comparison = false
+  end
+
+  def self.use_expanded_address_comparison?
+    @enable_expanded_address_comparison == true
+  end
 end
+
+Mail.enable_expanded_address_comparison

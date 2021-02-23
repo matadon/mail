@@ -178,6 +178,18 @@ module Mail
       @data && @data.group
     end
 
+    def ==(other)
+      if (not Mail.use_expanded_address_comparison?)
+        super
+      elsif other.is_a?(String)
+        self == self.class.new(other)
+      elsif other.is_a?(self.class)
+        to_s == other.to_s
+      else
+        super
+      end
+    end
+
     private
 
     def parse(value = nil)
